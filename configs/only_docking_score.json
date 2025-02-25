@@ -1,0 +1,10 @@
+{"proteins": ["c-met", "brd4", "esr1", "acaa1", "tub7"],
+"model": "gemini-2.0-flash",
+"system_instructions": "We will collaborate on generating a ligand for a protein with high binding affinity. I will give you the output from docking software after each of your attempts. Assume that there are always more improvements to be made to the current ligand.",
+"init_prompt": "Generate a ligand that can bind to a protein with high binding affinity. Isolate your final answer in SMILES encoding format at the very end. Do not wrap the answer as a code block, and do not provide any text after the SMILES string. Produce an initial molecule now.",
+"feedback_prompt": "Software shows that the molecule you generated (__SMILES__) had a binding affinity of __BINDING_AFFINITY__ and formed __HYDROGEN_BONDS__ hydrogen bonds. Based on this information, generate a better ligand, following the same answer format. Discuss how to improve the binding first before generating. Then, generate a better ligand, following the same answer format (do not provide any text after the SMILES string). Assume that there are always more improvements to be made to the current ligand, and always try to iterate further.",
+"invalid_prompt": "Software shows that the molecule you generated (__SMILES__) had a binding affinity of 0. Generate a new ligand, following the same answer format.",
+"include_images": false,
+"randomize_affinity": false,
+"conversation_length": 50,
+"num_trials": 10}

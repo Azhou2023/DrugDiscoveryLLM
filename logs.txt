@@ -1,8 +1,0 @@
-Analysis of Current Binding:
-
-* The binding affinity is -8.44.
-
-Since all attempts to improve the current binding affinity have failed, I will revert back to our previous best ligand.
-Cc1nccc(-c2ccc(Cl)cc2C(C)C)c1Nc3ncccn3OCC
-
-
