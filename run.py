@@ -37,7 +37,7 @@ def run(config):
             #Reset on previous best every 25 iterations
             for i in range(config['conversation_length']//25):
                 system_instructions = config['system_instructions'].replace('__PROTEIN__', protein)
-                client = genai.Client(api_key=os.environ['API_KEY'])
+                client = genai.Client(api_key=os.environ['API_KEY_1'])
                 chat = client.chats.create(model=config['model'], config=types.GenerateContentConfig(system_instruction=system_instructions))
                 prompt = [config['init_prompt'].replace('__PROTEIN__', protein)] if i==0 else [config['continued_init_prompt'].replace('__SMILES__', best_molecule).replace('__BINDING_AFFINITY__', str(random.uniform(-15, -5)) if config['randomize_affinity'] else str(best_affinity)).replace('__PROTEIN__', protein).replace('__HYDROGEN_BONDS__', str(best_hbonds))] + best_molecule_images
 
@@ -56,12 +56,12 @@ def run(config):
                         data = get_docking_data(ligand, protein)
 
                         if data and data['binding_affinity'] != 0:
-                            log.write(f'Docking result: {ligand} {data["binding_affinity"]} {data["hydrogen_bonds"]} {protein}\n\n')
+                            log.write(f'Docking result: {ligand} {data["binding_affinity"]} {data["hydrogen_bonds"]} {protein} {data["qed"]} {data["sa"]}\n\n')
                             if data['binding_affinity']<best_affinity:
                                 best_affinity = data['binding_affinity']
                                 best_molecule = ligand
                                 best_hbonds = data["hydrogen_bonds"]
-                                best_molecule_images = [types.Part.from_bytes(data=data['images'][img], mime_type="image/png") for img in data['images']]
+                                best_molecule_images = [types.Part.from_bytes(data=data['images'][img], mime_type="image/png") for img in data['images']] if config['include_images'] else []
 
                             prompt = [config['feedback_prompt'].replace('__SMILES__', ligand).replace('__BINDING_AFFINITY__', str(random.uniform(-15, -5)) if config['randomize_affinity'] else str(data['binding_affinity'])).replace('__PROTEIN__', protein).replace('__HYDROGEN_BONDS__', str(data['hydrogen_bonds']))]
                             if config['include_images']:
@@ -74,5 +74,5 @@ def run(config):
                         print(e)
                         time.sleep(60)
                         continue
-                print(f"Best affinity: {best_affinity}")
+                print(f"{protein}: Trial {trial+1} iteration {i*25+j} best affinity: {best_affinity}")
 run(sys.argv[1])
