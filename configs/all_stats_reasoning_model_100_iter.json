@@ -1,4 +1,4 @@
-{"proteins": ["esr1"],
+{"proteins": ["acaa1", "tub7"],
 "model": "gemini-2.0-flash-thinking-exp",
 "system_instructions": "We will collaborate on generating a ligand for a protein with high binding affinity. I will give you the output from docking software after each of your attempts. Assume that there are always more improvements to be made to the current ligand.",
 "init_prompt": "Generate a ligand that can bind to a protein with high binding affinity. Provide your final answer in SMILES encoding format at the very end. Do not wrap the answer as a code block, and do not provide any text after the SMILES string.",
